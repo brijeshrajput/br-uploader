@@ -1,0 +1,283 @@
+<?php
+// GET
+
+$search = '';
+$sort_by = 'newest';
+
+if(isset($_GET['search'])){
+    $search = $_GET['search'];
+}
+if(isset($_GET['sort'])){
+    $sort_by = $_GET['sort'];
+}
+
+include_once('./aiz-uploader/admin.php');
+
+$all_uploads = $application->data;
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - All Files</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://unpkg.com/metismenu/dist/metisMenu.min.css"> -->
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="vendors.css">
+    <link rel="stylesheet" href="aiz-core.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js" integrity="sha256-xLD7nhI62fcsEZK2/v8LsBcb4lG7dgULkuXoXB/j91c=" crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="aiz-titlebar text-left mt-2 mb-3">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="h3">All uploaded files</h1>
+            </div>
+            <div class="col-md-6 text-md-right">
+                <a href="create.html" class="btn btn-primary">
+                    <span>Upload New File</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <form id="sort_uploads" action="">
+            <div class="card-header row gutters-5">
+                <div class="col">
+                    <h5 class="mb-0 h6">All files</h5>
+                </div>
+                <div class="dropdown mb-2 mb-md-0">
+                    <button class="btn border dropdown-toggle" type="button" data-toggle="dropdown">
+                        Bulk Action
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="#" onclick="bulk_delete()">Delete selection</a>
+                    </div>
+                </div>
+                <div class="col-md-3 ml-auto mr-0">
+                    <select class="form-control form-control-xs aiz-selectpicker" name="sort" onchange="sort_uploads()">
+                        <option value="newest" <?php if($sort_by=='newest' ){ ?> selected="" <?php } ?>>Sort by newest</option>
+                        <option value="oldest" <?php if($sort_by=='oldest' ){ ?> selected="" <?php } ?>>Sort by oldest</option>
+                        <option value="smallest" <?php if($sort_by=='smallest' ){ ?> selected="" <?php } ?>>Sort by smallest</option>
+                        <option value="largest" <?php if($sort_by=='largest' ){ ?> selected="" <?php } ?>>Sort by largest</option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input type="text" class="form-control form-control-xs" name="search"
+                        placeholder="Search your files" value="<?php echo $search ?>">
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="form-group">
+                    <div class="aiz-checkbox-inline">
+                        <label class="aiz-checkbox">
+                            Select All
+                            <input type="checkbox" class="check-all">
+                            <span class="aiz-square-check"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row gutters-5">
+                    <?php
+                    foreach($all_uploads as $key => $file){
+                        
+                        if($file->file_original_name == null){
+                            $file_name = 'Unknown';
+                        }else{
+                            $file_name = $file->file_original_name;
+                        }
+                        $file_path = my_asset($file->file_name);
+                        if($file->external_link) {
+                            $file_path = $file->external_link;
+                        }
+
+                    
+                    ?>
+                    <div class="col-auto w-140px w-lg-220px">
+                        <div class="aiz-file-box">
+                            <div class="dropdown-file">
+                                <a class="dropdown-link" data-toggle="dropdown">
+                                    <i class="la la-ellipsis-v"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="javascript:void(0)" class="dropdown-item" onclick="detailsInfo(this)"
+                                        data-id="<?php echo $file->id ?>">
+                                        <i class="las la-info-circle mr-2"></i>
+                                        <span>Details Info</span>
+                                    </a>
+                                    <a href="<?php echo my_asset($file->file_name) ?>" target="_blank"
+                                        download="<?php echo $file_name . $file->extension ?>" class="dropdown-item">
+                                        <i class="la la-download mr-2"></i>
+                                        <span>Download</span>
+                                    </a>
+                                    <a href="javascript:void(0)" class="dropdown-item" onclick="copyUrl(this)"
+                                        data-url="<?php echo my_asset($file->file_name) ?>">
+                                        <i class="las la-clipboard mr-2"></i>
+                                        <span>Copy Link</span>
+                                    </a>
+                                    <a href="javascript:void(0)" class="dropdown-item confirm-alert"
+                                        data-href="aiz-uploader/delete_file.php?id=<?php echo $file->id?>"
+                                        data-target="#delete-modal">
+                                        <i class="las la-trash mr-2"></i>
+                                        <span>Delete</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="select-box">
+                                <div class="aiz-checkbox-inline">
+                                    <label class="aiz-checkbox">
+                                        <input type="checkbox" class="check-one" name="id[]" value="<?php echo $file->id ?>">
+                                        <span class="aiz-square-check"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="card card-file aiz-uploader-select c-default"
+                                title="<?php echo $file_name . $file->extension ?>">
+                                <div class="card-file-thumb">
+                                    <?php if($file->type == 'image'){ ?>
+                                    <img src="<?php echo $file_path ?>" class="img-fit">
+                                    <?php }else if($file->type == 'video'){ ?>
+                                    <i class="las la-file-video"></i>
+                                    <?php } else { ?>
+                                    <i class="las la-file"></i>
+                                    <?php } ?>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="d-flex">
+                                        <span class="text-truncate title"><?php echo $file_name ?></span>
+                                        <span class="ext">.<?php echo $file->extension ?></span>
+                                    </h6>
+                                    <p><?php echo $file->file_size ?></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+                <div class="aiz-pagination mt-3">
+                    {{ $all_uploads->appends(request()->input())->links() }}
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div id="delete-modal" class="modal fade">
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title h6">Delete Confirmation</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" aria-hidden="true"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <p class="mt-1">Are you sure to delete this file?</p>
+                    <button type="button" class="btn btn-link mt-2" data-bs-dismiss="modal">Cancel</button>
+                    <a href="" class="btn btn-primary mt-2 comfirm-link">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="info-modal" class="modal fade">
+        <div class="modal-dialog modal-dialog-right">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title h6">File Info</h5>
+                    <button type="button" class="close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body c-scrollbar-light position-relative" id="info-modal-content">
+                    <div class="c-preloader text-center absolute-center">
+                        <i class="las la-spinner la-spin la-3x opacity-70"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        $(document).on("change", ".check-all", function () {
+            if (this.checked) {
+                // Iterate each checkbox
+                $('.check-one:checkbox').each(function () {
+                    this.checked = true;
+                });
+            } else {
+                $('.check-one:checkbox').each(function () {
+                    this.checked = false;
+                });
+            }
+        });
+
+        function detailsInfo(e) {
+            $('#info-modal-content').html('<div class="c-preloader text-center absolute-center"><i class="las la-spinner la-spin la-3x opacity-70"></i></div>');
+            var id = $(e).data('id')
+            $('#info-modal').modal('show');
+            $.post(baseUrl+'aiz-uploader/file_info', { _token: AIZ.data.csrf, id: id }, function (data) {
+                $('#info-modal-content').html(data);
+                // console.log(data);
+            });
+        }
+        function copyUrl(e) {
+            var url = $(e).data('url');
+            var $temp = $("<input>");
+            $("body").append($temp);
+            $temp.val(url).select();
+            try {
+                document.execCommand("copy");
+                AIZ.plugins.notify('success', 'Link copied to clipboard');
+            } catch (err) {
+                AIZ.plugins.notify('danger', 'Oops, unable to copy');
+            }
+            $temp.remove();
+        }
+        function sort_uploads(el) {
+            $('#sort_uploads').submit();
+        }
+
+        function bulk_delete() {
+            var data = new FormData($('#sort_uploads')[0]);
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: baseUrl+"aiz-uploader/bulk_uploaded_files_delete",
+                type: 'POST',
+                data: data,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response == 1) {
+                        location.reload();
+                    }
+                    else {
+                        AIZ.plugins.notify('danger', 'Something Went Wrong.');
+                    }
+                }
+            });
+        }
+    </script>
+
+    <!-- end -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <!-- <script src="https://unpkg.com/metismenu"></script> -->
+    <script src="vendors.js"></script>
+    
+    <script src="aiz-core.js"></script>
+
+</body>
+
+</html>

@@ -1,5 +1,6 @@
 
 var AIZ = AIZ || {};
+var baseUrl = 'http://localhost/exp/';
 AIZ.local = {
     nothing_selected: 'Nothing selected',
     nothing_found: 'Nothing found',
