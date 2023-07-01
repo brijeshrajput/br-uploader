@@ -1847,41 +1847,41 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
     }, 3600000);
 
     // init aiz plugins, extra options
-    AIZ.extra.initActiveMenu();
-    AIZ.extra.mobileNavToggle();
-    AIZ.extra.deleteConfirm();
-    AIZ.extra.multiModal();
-    AIZ.extra.inputRating();
-    AIZ.extra.bsCustomFile();
-    AIZ.extra.stopPropagation();
-    AIZ.extra.outsideClickHide();
-    AIZ.extra.scrollToBottom();
-    AIZ.extra.classToggle();
-    AIZ.extra.collapseSidebar();
-    AIZ.extra.autoScroll();
-    AIZ.extra.addMore();
-    AIZ.extra.removeParent();
-    AIZ.extra.selectHideShow();
-    AIZ.extra.plusMinus();
-    AIZ.extra.hovCategoryMenu();
-    AIZ.extra.trimAppUrl();
-    AIZ.extra.acceptCookie();
-    AIZ.extra.setSession();
-    AIZ.extra.showSessionPopup()
+    // AIZ.extra.initActiveMenu();
+    // AIZ.extra.mobileNavToggle();
+    // AIZ.extra.deleteConfirm();
+    // AIZ.extra.multiModal();
+    // AIZ.extra.inputRating();
+    // AIZ.extra.bsCustomFile();
+    // AIZ.extra.stopPropagation();
+    // AIZ.extra.outsideClickHide();
+    // AIZ.extra.scrollToBottom();
+    // AIZ.extra.classToggle();
+    // AIZ.extra.collapseSidebar();
+    // AIZ.extra.autoScroll();
+    // AIZ.extra.addMore();
+    // AIZ.extra.removeParent();
+    // AIZ.extra.selectHideShow();
+    // AIZ.extra.plusMinus();
+    // AIZ.extra.hovCategoryMenu();
+    // AIZ.extra.trimAppUrl();
+    // AIZ.extra.acceptCookie();
+    // AIZ.extra.setSession();
+    // AIZ.extra.showSessionPopup()
 
-    AIZ.plugins.metismenu();
-    AIZ.plugins.bootstrapSelect();
-    AIZ.plugins.tagify();
-    AIZ.plugins.textEditor();
-    AIZ.plugins.tooltip();
-    AIZ.plugins.countDown();
-    AIZ.plugins.dateRange();
-    AIZ.plugins.timePicker();
-    AIZ.plugins.fooTable();
-    AIZ.plugins.slickCarousel();
-    AIZ.plugins.noUiSlider();
-    AIZ.plugins.zoom();
-    AIZ.plugins.jsSocials();
+    // AIZ.plugins.metismenu();
+    // AIZ.plugins.bootstrapSelect();
+    // AIZ.plugins.tagify();
+    // AIZ.plugins.textEditor();
+    // AIZ.plugins.tooltip();
+    // AIZ.plugins.countDown();
+    // AIZ.plugins.dateRange();
+    // AIZ.plugins.timePicker();
+    // AIZ.plugins.fooTable();
+    // AIZ.plugins.slickCarousel();
+    // AIZ.plugins.noUiSlider();
+    // AIZ.plugins.zoom();
+    // AIZ.plugins.jsSocials();
 
     // initialization of aiz uploader
     AIZ.uploader.initForInput();
