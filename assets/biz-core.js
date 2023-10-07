@@ -830,61 +830,6 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
         }
     };
     AIZ.plugins = {
-        bootstrapSelect: function (refresh = "") {
-            $(".aiz-selectpicker").each(function (el) {
-                var $this = $(this);
-                if (!$this.parent().hasClass('bootstrap-select')) {
-                    var selected = $this.data('selected');
-                    if (typeof selected !== 'undefined') {
-                        $this.val(selected);
-                    }
-                    $this.selectpicker({
-                        size: 5,
-                        noneSelectedText: AIZ.local.nothing_selected,
-                        virtualScroll: false
-                    });
-                }
-                if (refresh === "refresh") {
-                    $this.selectpicker("refresh");
-                }
-                if (refresh === "destroy") {
-                    $this.selectpicker("destroy");
-                }
-            });
-        },
-        tagify: function () {
-            $(".aiz-tag-input").not(".tagify").each(function () {
-                var $this = $(this);
-
-                var maxTags = $this.data("max-tags");
-                var whitelist = $this.data("whitelist");
-                var onchange = $this.data("on-change");
-
-                maxTags = !maxTags ? Infinity : maxTags;
-                whitelist = !whitelist ? [] : whitelist;
-
-                $this.tagify({
-                    maxTags: maxTags,
-                    whitelist: whitelist,
-                    dropdown: {
-                        enabled: 1,
-                    },
-                });
-                try {
-                    callback = eval(onchange);
-                } catch (e) {
-                    var callback = '';
-                }
-                if (typeof callback == 'function') {
-                    $this.on('removeTag', function () {
-                        callback();
-                    });
-                    $this.on('add', function () {
-                        callback();
-                    });
-                }
-            });
-        },
         textEditor: function () {
             $(".aiz-text-editor").each(function (el) {
                 var $this = $(this);
@@ -1245,45 +1190,6 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                 $('.document-click-d-none').addClass('d-none');
             });
         },
-        inputRating: function () {
-            $(".rating-input").each(function () {
-                $(this)
-                    .find("label")
-                    .on({
-                        mouseover: function (event) {
-                            $(this).find("i").addClass("hover");
-                            $(this).prevAll().find("i").addClass("hover");
-                        },
-                        mouseleave: function (event) {
-                            $(this).find("i").removeClass("hover");
-                            $(this).prevAll().find("i").removeClass("hover");
-                        },
-                        click: function (event) {
-                            $(this).siblings().find("i").removeClass("active");
-                            $(this).find("i").addClass("active");
-                            $(this).prevAll().find("i").addClass("active");
-                        },
-                    });
-                if ($(this).find("input").is(":checked")) {
-                    $(this)
-                        .find("label")
-                        .siblings()
-                        .find("i")
-                        .removeClass("active");
-                    $(this)
-                        .find("input:checked")
-                        .closest("label")
-                        .find("i")
-                        .addClass("active");
-                    $(this)
-                        .find("input:checked")
-                        .closest("label")
-                        .prevAll()
-                        .find("i")
-                        .addClass("active");
-                }
-            });
-        },
         scrollToBottom: function () {
             $(".scroll-to-btm").each(function (i, el) {
                 el.scrollTop = el.scrollHeight;
@@ -1349,15 +1255,6 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
                         .removeClass("d-none");
                 });
             });
-        },
-        hovCategoryMenu: function () {
-            $("#category-menu-icon, #category-sidebar")
-                .on("mouseover", function (event) {
-                    $("#hover-category-menu").addClass('active').removeClass('d-none');
-                })
-                .on("mouseout", function (event) {
-                    $("#hover-category-menu").addClass('d-none').removeClass('active');
-                });
         },
         trimAppUrl: function () {
             if (AIZ.data.appUrl.slice(-1) == '/') {
@@ -1435,41 +1332,38 @@ $.fn.toggleAttr = function (attr, attr1, attr2) {
     // }, 3600000);
 
     // init aiz plugins, extra options
-    // AIZ.extra.initActiveMenu();
-    // AIZ.extra.mobileNavToggle();
+    
     AIZ.extra.deleteConfirm();
     // AIZ.extra.multiModal();
-    // AIZ.extra.inputRating();
+    
     // AIZ.extra.bsCustomFile();
     // AIZ.extra.stopPropagation();
     // AIZ.extra.outsideClickHide();
     // AIZ.extra.scrollToBottom();
     // AIZ.extra.classToggle();
-    // AIZ.extra.collapseSidebar();
+    
     // AIZ.extra.autoScroll();
     // AIZ.extra.addMore();
     // AIZ.extra.removeParent();
-    // AIZ.extra.selectHideShow();
-    // AIZ.extra.plusMinus();
-    // AIZ.extra.hovCategoryMenu();
+    
+    
+    
     // AIZ.extra.trimAppUrl();
     // AIZ.extra.acceptCookie();
     // AIZ.extra.setSession();
     // AIZ.extra.showSessionPopup()
 
-    // AIZ.plugins.metismenu();
-    // AIZ.plugins.bootstrapSelect();
-    // AIZ.plugins.tagify();
+    
     // AIZ.plugins.textEditor();
-    // AIZ.plugins.tooltip();
+    
     // AIZ.plugins.countDown();
     // AIZ.plugins.dateRange();
     // AIZ.plugins.timePicker();
     // AIZ.plugins.fooTable();
-    // AIZ.plugins.slickCarousel();
-    // AIZ.plugins.noUiSlider();
-    // AIZ.plugins.zoom();
-    // AIZ.plugins.jsSocials();
+    
+    
+    
+    
 
     // initialization of aiz uploader
     AIZ.uploader.initForInput();

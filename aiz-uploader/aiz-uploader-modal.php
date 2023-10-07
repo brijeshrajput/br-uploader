@@ -13,10 +13,10 @@ function model()
 				<div class="uppy-modal-nav">
 					<ul class="nav nav-tabs border-0">
 						<li class="nav-item">
-							<a class="nav-link active font-weight-medium text-dark" data-toggle="tab" href="#aiz-select-file">Select File</a>
+							<a class="nav-link active font-weight-medium text-dark" data-bs-toggle="tab" href="#aiz-select-file">Select File</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link font-weight-medium text-dark" data-toggle="tab" href="#aiz-upload-new">Upload New</a>
+							<a class="nav-link font-weight-medium text-dark" data-bs-toggle="tab" href="#aiz-upload-new">Upload New</a>
 						</li>
 					</ul>
 				</div>
